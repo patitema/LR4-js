@@ -65,43 +65,34 @@ function third() {
   output.innerHTML = '';
   
   const numbers = [];
-  while(true) {
-      const input = prompt("Введите целое число (отмена или пусто для завершения):");
-      
-      if(!input) break;
-      
-      const number = parseInt(input);
-      if(!isNaN(number)) {
-          numbers.push(number);
-      } else {
-          alert("Введите корректное целое число!");
-      }
+  let input;
+  
+  while ((input = prompt("Введите число (отмена/пусто - стоп)")) !== null) {
+      if (input.trim() === "") break;
+      const num = Number(input);
+      if (!isNaN(num)) numbers.push(num);
   }
   
-  if(numbers.length === 0) {
-      output.innerHTML = "<p>Массив пуст!</p>";
+  if (!numbers.length) {
+      output.innerHTML = "<p>Нет чисел!</p>";
       return;
   }
   
-  const count = () => numbers.length;
-  
-  const findMin = () => numbers.reduce((acc, val) => Math.min(acc, val));
-  
-  const findMax = () => numbers.reduce((acc, val) => Math.max(acc, val));
-  
-  const sum = () => numbers.reduce((acc, val) => acc + val, 0);
-  
-  const average = () => sum() / count();
+  const min = Math.min(...numbers);
+  const max = Math.max(...numbers);
+  const sum = numbers.reduce((a, b) => a + b, 0);
+  const avg = sum / numbers.length;
   
   output.innerHTML = `
-      <h2>Результаты анализа массива:</h2>
+      <h2>Результат:</h2>
       <ul>
-          <li>Количество элементов: ${count()}</li>
-          <li>Минимальный элемент: ${findMin()}</li>
-          <li>Максимальный элемент: ${findMax()}</li>
-          <li>Сумма элементов: ${sum()}</li>
-          <li>Среднее значение: ${average().toFixed(2)}</li>
+          <li><p>Количество: ${numbers.length}</p></li>
+          <li><p>Минимум: ${min}</p></li>
+          <li><p>Максимум: ${max}</p></li>
+          <li><p>Сумма: ${sum}</p></li>
+          <li><p>Среднее: ${avg.toFixed(2)}</p></li>
       </ul>
-      <p>Исходный массив: [${numbers.join(', ')}]</p>
+      <br>
+      <p>Числа: ${numbers.join(', ')}</p>
   `;
 }
